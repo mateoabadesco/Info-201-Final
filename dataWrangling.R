@@ -1,9 +1,10 @@
+rm(list = ls())
+
 library("dplyr")
 library("ggplot2")
 library("stringr")
-
-setwd("C:\\Users\\4nime.DESKTOP-MQ9FBUC\\OneDrive\\Desktop\\school\\info 201\\")
-
+library("tidyr")
+setwd
 homelessness_2023_df <- read.csv("2023-HIC-Counts-by-State.csv")
 homelessness_2022_df <- read.csv("2022-HIC-Counts-by-State.csv")
 homelessness_2021_df <- read.csv("2021-HIC-Counts-by-State.csv")
@@ -26,4 +27,13 @@ Price_df <- property_df %>% group_by(yearState) %>% summarize(total_estimate = m
 
 joined_df <- left_join(Price_df, PIT_df, by = "yearState")
 
-          
+column_names <- colnames(joined_df)
+print(column_names)
+
+# Data cleaning
+# Check for missing values in each column
+apply(joined_df, 2, function(x) any(is.na(x)))
+# From our output, we have no missing values
+# Lets create a new categorical variable by Separating YearState Column
+joined_df <- separate(joined_df, yearState, into = c("year", "state"), sep = " ")
+joined_df
