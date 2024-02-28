@@ -55,13 +55,11 @@ radio_widget <- radioButtons(
   selected = "F")
 
 # https://shiny.rstudio.com/gallery/widget-gallery.html
-slider_widget <- sliderInput(
+slider_widget <- selectInput(
   inputId = "year_selection",
   label = "Year",
-  min = min(df$Year),
-  max = max(df$Year),
-  value = c(1900, 2000),
-  sep = "")
+  choices = joined_df$yearState,
+  selected = "2021 AK")
 
 # Put a plot in the middle of the page
 main_panel_plot <- mainPanel(
@@ -74,8 +72,6 @@ viz_tab <- tabPanel(
   "Data Viz",
   sidebarLayout(
     sidebarPanel(
-    select_widget,
-    radio_widget,
     slider_widget),
     main_panel_plot
   )
