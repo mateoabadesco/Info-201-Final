@@ -37,3 +37,4 @@ apply(joined_df, 2, function(x) any(is.na(x)))
 # Lets create a new categorical variable by Separating YearState Column
 joined_df <- separate(joined_df, yearState, into = c("year", "state"), sep = " ")
 joined_df
+

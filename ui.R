@@ -1,26 +1,46 @@
+library("dplyr")
+library("ggplot2")
+library("stringr")
+library("tidyr")
 library(plotly)
-library(bslib)
-library(dplyr)
+library(markdown)
 
 # 1. Customize your app via my_style
+setwd("C:\\Users\\4nime\\Desktop\\School\\Info 201\\Info-201-Final")
+homelessness_2023_df <- read.csv("2023-HIC-Counts-by-State.csv")
+homelessness_2022_df <- read.csv("2022-HIC-Counts-by-State.csv")
+homelessness_2021_df <- read.csv("2021-HIC-Counts-by-State.csv")
+property_df <- read.csv("HPI_master.csv")
+
+# create new var based on change in population per shelter based on growth in housing costs
+
+homelessness_df <- merge(homelessness_2021_df, homelessness_2022_df, all = TRUE)
+homelessness_df <- merge(homelessness_df, homelessness_2023_df, all =  TRUE)
+
+homelessness_df$yearState <- paste(homelessness_df$year, homelessness_df$CocState, sep = " ")
+
+PIT_df <- homelessness_df %>% group_by(yearState) %>% summarize(PIT = sum(PIT.Count, na.rm = TRUE)) 
+
+
+property_df <- property_df %>% filter(level == "State") %>% filter(yr > 2020)
+property_df$yearState <- paste(property_df$yr, property_df$place_id, sep = " ")
+
+Price_df <- property_df %>% group_by(yearState) %>% summarize(costIndex = mean(index_nsa, na.rm = TRUE)) 
+
+joined_df <- left_join(Price_df, PIT_df, by = "yearState")
+
+column_names <- colnames(joined_df)
+print(column_names)
+
+# Data cleaning
+# Check for missing values in each column
+apply(joined_df, 2, function(x) any(is.na(x)))
+# From our output, we have no missing values
+# Lets create a new categorical variable by Separating YearState Column
+joined_df <- separate(joined_df, yearState, into = c("year", "state"), sep = " ")
+
+
 # 2. Publish your app
-
-# Load data
-df <- read.csv("https://github.com/melaniewalsh/Neat-Datasets/blob/main/NationalNames.csv?raw=true")
-
-# Filter data in some way
-subset_df <- df %>% 
-  group_by(Name) %>% 
-  summarize(total = sum(Count)) %>% 
-  slice_max(n = 100, order_by = total)
-
-# Manually Determine a BootSwatch Theme
-my_theme <- bs_theme(bg = "#0b3d91", #background color
-                  fg = "white", #foreground color
-                  primary = "#FCC780", # primary color
-) 
-# Update BootSwatch Theme
-my_theme <- bs_theme_update(my_theme, bootswatch = "cerulean") 
 
 # Home page tab
 intro_tab <- tabPanel(
@@ -36,35 +56,17 @@ intro_tab <- tabPanel(
 # We want our next tab to have a sidebar layout
 # So we're going to create a sidebarPanel() and a mainPanel() and then add them together
 
-# Create sidebar panel for widget
-select_widget <-
-  selectInput(
-    inputId = "name_selection",
-    label = "Names",
-    choices = subset_df$Name,
-    selectize = TRUE,
-    # True allows you to select multiple choices...
-    multiple = TRUE,
-    selected = "Michael"
-  )
-
-radio_widget <- radioButtons(
-  inputId = "gender_selection",
-  label = "Gender",
-  choices = c("F", "M"),
-  selected = "F")
-
 # https://shiny.rstudio.com/gallery/widget-gallery.html
 slider_widget <- selectInput(
   inputId = "year_selection",
   label = "Year",
-  choices = joined_df$yearState,
-  selected = "2021 AK")
+  choices = joined_df$year,
+  selected = "2021")
 
 # Put a plot in the middle of the page
 main_panel_plot <- mainPanel(
   # Make plot interactive
-  plotlyOutput(outputId = "names_plot")
+  plotlyOutput(outputId = "state_plot")
 )
 
 # Data viz tab  — combine sidebar panel and main panel
@@ -78,8 +80,6 @@ viz_tab <- tabPanel(
   )
 
 ui <- navbarPage(
-  # Select Theme
-  theme = my_theme,
   # Home page title
   "Home Page",
   intro_tab,
