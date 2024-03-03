@@ -60,8 +60,8 @@ intro_tab <- tabPanel(
 slider_widget <- selectInput(
   inputId = "year_selection",
   label = "Year",
-  choices = joined_df$year,
-  selected = "2021")
+  selected = "2021",
+  choices = joined_df$year)
 
 # Put a plot in the middle of the page
 main_panel_plot <- mainPanel(

@@ -14,6 +14,7 @@ homelessness_2023_df <- read.csv("2023-HIC-Counts-by-State.csv")
 homelessness_2022_df <- read.csv("2022-HIC-Counts-by-State.csv")
 homelessness_2021_df <- read.csv("2021-HIC-Counts-by-State.csv")
 property_df <- read.csv("HPI_master.csv")
+state_name_abv_df <- data.frame(State.Code = state.abb, State.Name = state.name)
 
 # create new var based on change in population per shelter based on growth in housing costs
 
@@ -80,21 +81,23 @@ apply(joined_df, 2, function(x) any(is.na(x)))
 # From our output, we have no missing values
 # Lets create a new categorical variable by Separating YearState Column
 joined_df <- separate(joined_df, yearState, into = c("year", "state"), sep = " ")
-
-
-
-  
   
   output$state_plot <- renderPlotly({
-
-    filtered_df <- joined_df %>% 
-      # Filter for user's gender selection
-      filter(year %in% input$year_selection)
     
-    #usa plot
+    filtered_df <- joined_df %>% 
+      # Filter for user's year selection
+      filter(year == input$year_selection)
+
     state <- map_data("state")
-    state_plot <- ggplot(data=state, aes(x=long, y=lat, fill=region, group=group)) + 
-      geom_polygon(color = "blue") + 
+    state_name_abv_df$State.Name <- tolower(state_name_abv_df$State.Name)
+    
+    state <- left_join(state, state_name_abv_df, by = c("region" = "State.Name"))
+    state <- left_join(state, filtered_df, by = c("State.Code" = "state"))
+    
+    #print(state)
+    state_plot <- ggplot(data=state, aes(x=long, y=lat, fill=PIT/costIndex, group=group)) + 
+      geom_polygon(color = "white") + 
+      scale_fill_gradient(low = "lightblue", high = "darkblue") +
       guides(fill=FALSE) + 
       theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank(),
             axis.title.y=element_blank(), axis.text.y=element_blank(), axis.ticks.y=element_blank()) + 
