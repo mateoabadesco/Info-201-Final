@@ -4,7 +4,7 @@ library("dplyr")
 library("ggplot2")
 library("stringr")
 library("tidyr")
-setwd
+setwd("C:\\Users\\4nime\\Desktop\\School\\Info 201\\Info-201-Final")
 homelessness_2023_df <- read.csv("2023-HIC-Counts-by-State.csv")
 homelessness_2022_df <- read.csv("2022-HIC-Counts-by-State.csv")
 homelessness_2021_df <- read.csv("2021-HIC-Counts-by-State.csv")
@@ -37,3 +37,4 @@ apply(joined_df, 2, function(x) any(is.na(x)))
 # Lets create a new categorical variable by Separating YearState Column
 joined_df <- separate(joined_df, yearState, into = c("year", "state"), sep = " ")
 joined_df
+
