@@ -148,12 +148,38 @@ viz_tab2 <- tabPanel(
   )
 )
 
+viz_3_tab <- tabPanel("Trends in Homelessness",
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("stateInput", "Choose a state:", choices = unique(joined_df$state))
+    ),
+    mainPanel(
+      h2("Trend of Homelessness Counts"),
+      plotOutput("homelessnessTrendPlot")
+    )
+  )
+)
+
+viz_4_tab <- tabPanel("Property and Homelessness",
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("yearInput", "Choose a year:", choices = unique(joined_df$year))
+    ),
+    mainPanel(
+      h2("Property Value vs. Total Homelessness"),
+      plotOutput("propertyHomelessnessPlot")
+    )
+  )
+)
+
 ui <- navbarPage(
   # Home page title
   "Home Page",
   overview_tab,
   viz_tab,
   viz_tab2,
+  viz_3_tab,
+  viz_4_tab,
   conclusion_tab
 )
 

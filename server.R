@@ -108,5 +108,26 @@ joined_df <- separate(joined_df, yearState, into = c("year", "state"), sep = " "
     
   })
   
-
+  output$homelessnessTrendPlot <- renderPlot({
+    filtered_data <- joined_df %>% 
+      filter(state == input$stateInput)
+    
+    ggplot(filtered_data, aes(x = year, y = PIT)) +
+      geom_line() +
+      geom_point() +
+      labs(title = paste("Homelessness Counts Over Time in", input$stateInput),
+           x = "Year", y = "Homelessness Count")
+  })
+  
+  # Server logic for Property Value vs. Total Homelessness Visualization
+  output$propertyHomelessnessPlot <- renderPlot({
+    filtered_data <- joined_df %>% 
+      filter(year == input$yearInput)
+    
+    ggplot(filtered_data, aes(x = costIndex, y = PIT)) +
+      geom_point() +
+      geom_smooth(method = "lm") +
+      labs(title = paste("Property Value vs. Total Homelessness in", input$yearInput),
+           x = "Property Value", y = "Total Homelessness")
+  })
 }
