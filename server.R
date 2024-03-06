@@ -9,7 +9,6 @@ library(markdown)
 library(maps)
 library(mapdata)
 
-setwd("C:\\Users\\4nime\\Desktop\\School\\Info 201\\Info-201-Final")
 state_name_abv_df <- data.frame(State.Code = state.abb, State.Name = state.name)
 
 server <- function(input, output) {
