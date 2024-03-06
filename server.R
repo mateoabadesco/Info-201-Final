@@ -1,5 +1,4 @@
-rm(list = ls())
-
+library(tidyverse)
 library("dplyr")
 library("ggplot2")
 library("stringr")
@@ -130,4 +129,3 @@ joined_df <- separate(joined_df, yearState, into = c("year", "state"), sep = " "
       labs(title = paste("Property Value vs. Total Homelessness in", input$yearInput),
            x = "Property Value", y = "Total Homelessness")
   })
-}

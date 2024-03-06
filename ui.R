@@ -21,27 +21,63 @@ homelessness_df$yearState <- paste(homelessness_df$year, homelessness_df$CocStat
 
 PIT_df <- homelessness_df %>% group_by(yearState) %>% summarize(PIT = sum(PIT.Count, na.rm = TRUE)) 
 
+# Data wrangling 
+# Loads in your datasets
+food_df <- read.csv("food_access.csv") 
+county_df <- read.csv("CountyCodes.csv")
 
-property_df <- property_df %>% filter(level == "State") %>% filter(yr > 2020)
-property_df$yearState <- paste(property_df$yr, property_df$place_id, sep = " ")
+# Make a dataframe out of US State names/abbreviations that R has included
+state_name_abv_df <- data.frame(State.Code = state.abb, State.Name = state.name)
+#Convert state names to full names in county_df
+county_df <- merge(county_df, state_name_abv_df, by.x = "State", by.y = "State.Code")
 
-Price_df <- property_df %>% group_by(yearState) %>% summarize(costIndex = mean(index_nsa, na.rm = TRUE)) 
+# Rename the State.Name column to State to match the column name in food_df
+names(county_df)[names(county_df) == 'State'] <- "State.Code"
+names(county_df)[names(county_df) == "State.Name"] <- "State"
+names(county_df)[names(county_df) == "County_name"] <- "County"
 
-joined_df <- left_join(Price_df, PIT_df, by = "yearState")
-
-column_names <- colnames(joined_df)
-print(column_names)
-
-# Data cleaning
-# Check for missing values in each column
-apply(joined_df, 2, function(x) any(is.na(x)))
-# From our output, we have no missing values
-# Lets create a new categorical variable by Separating YearState Column
-joined_df <- separate(joined_df, yearState, into = c("year", "state"), sep = " ")
+# Merge food_df and county_df based on the common columns "County" and "State"
+merged_data <- merge(food_df, county_df, by = c("County", "State"))
 
 
-# 2. Publish your app
+## OVERVIEW TAB INFO
 
+overview_tab <- tabPanel("Introduction",
+                         h1("Exploring Population and Housing Trends Across Economic Types"),
+                         p("Welcome to our immersive journey into urban dynamics. This project offers 
+     an insightful exploration of the intricate interplay between population 
+     and housing trends across diverse economic landscapes within urban areas.", 
+                           style = "font-size: 18px;"),
+                         
+                         p("Our interactive tool provides a rich tapestry of analyses, unraveling the 
+     complex patterns of population distribution, housing unit allocation, and 
+     their profound relationship with various economic factors across 
+     multifaceted geographic regions. Through dynamic visualizations and 
+     data-driven insights, users are invited to embark on a voyage of discovery,
+     uncovering the multifaceted layers of urban dynamics.", 
+                           style = "font-size: 18px;"),
+                         
+                         p("Embark on your exploration by navigating through the tabs, 
+     each offering a unique lens through which to view urban phenomena.", 
+                           style = "font-size: 18px;"),
+                         
+                         p("In the 'Population & Housing Distribution' tab, delve into the 
+     distribution patterns of population and housing units across different 
+     economic types within urban areas. Explore interactive visualizations to 
+     gain deeper insights into the spatial dynamics of urban populations and 
+     housing.", style = "font-size: 18px;"),
+                         
+                         p("The 'Population vs. Housing' tab allows you to examine the relationship 
+     between population and housing units across various economic types. Through 
+     scatter plots and trend analysis, uncover correlations and patterns that 
+     shed light on the urban landscape.", style = "font-size: 18px;"),
+                         
+                         p("Finally, the 'Conclusion' tab offers a summary of key insights gleaned 
+     from the analysis. Reflect on the findings and implications for urban 
+     planning, policy-making, and future research endeavors.", 
+                           style = "font-size: 18px;")
+                         
+)
 # Home page tab
 overview_tab <- tabPanel("Introduction",
                          h1("Exploring Population and Housing Trends Across Economic Types"),
@@ -103,11 +139,12 @@ select_widget <- selectInput(
   label = "Year",
   selected = "2021",
   choices = joined_df$year)
-
-# Put a plot in the middle of the page
-main_panel_plot <- mainPanel(
-  # Make plot interactive
-  plotlyOutput(outputId = "state_plot")
+=======
+viz_3_tab <- tabPanel("Population vs Housing Units by Economic Type",
+                      sidebarLayout(
+                        viz_3_sidebar,
+                        viz_3_main_panel
+                      )
 )
 
 slider_widget <- sliderInput(
@@ -181,5 +218,3 @@ ui <- navbarPage(
   viz_3_tab,
   viz_4_tab,
   conclusion_tab
-)
-
