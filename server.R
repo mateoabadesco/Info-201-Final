@@ -59,9 +59,10 @@ joined_df <- separate(joined_df, yearState, into = c("year", "state"), sep = " "
     state <- left_join(state, filtered_df, by = c("State.Code" = "state"))
     
     
+    state$deviation <- (state$PIT/state$costIndex)
+    state$standard_deviation <- (state$deviation - mean((state %>% group_by(region) %>% distinct(region, .keep_all = TRUE))$deviation, na.rm=TRUE))/ sd((state %>% group_by(region) %>% distinct(region, .keep_all = TRUE))$deviation, na.rm=TRUE)
     
-    print(n = 49, state %>% group_by(region) %>% summarize(stat = first(PIT/costIndex)))
-    state_plot <- ggplot(data=state, aes(x=long, y=lat, fill=PIT/costIndex, group=group)) + 
+    state_plot <- ggplot(data=state, aes(x=long, y=lat, fill=standard_deviation, group=group)) + 
       geom_polygon(color = "white") + 
       scale_fill_gradient(low = "lightblue", high = "darkblue") +
       guides(fill=FALSE) + 
