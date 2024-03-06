@@ -98,7 +98,7 @@ conclusion_tab <- tabPanel("Conclusion",
 # So we're going to create a sidebarPanel() and a mainPanel() and then add them together
 
 # https://shiny.rstudio.com/gallery/widget-gallery.html
-slider_widget <- selectInput(
+select_widget <- selectInput(
   inputId = "year_selection",
   label = "Year",
   selected = "2021",
@@ -110,21 +110,50 @@ main_panel_plot <- mainPanel(
   plotlyOutput(outputId = "state_plot")
 )
 
+slider_widget <- sliderInput(
+  inputId = "year_slider",
+  label = "Year",
+  min = 2021, 
+  max = 2023, 
+  value = c(2021, 2022)
+)
+
+# Put a plot in the middle of the page
+main_panel_plot <- mainPanel(
+  # Make plot interactive
+  plotlyOutput(outputId = "state_plot")
+)
+
+change_panel_plot <- mainPanel(
+  # Make plot interactive
+  plotlyOutput(outputId = "change_plot")
+)
+
 # Data viz tab  — combine sidebar panel and main panel
 viz_tab <- tabPanel(
   "Data Viz",
   sidebarLayout(
     sidebarPanel(
-    slider_widget),
+    select_widget),
     main_panel_plot
   )
   )
+
+viz_tab2 <- tabPanel(
+  "Data Viz2",
+  sidebarLayout(
+    sidebarPanel(
+      slider_widget),
+    change_panel_plot
+  )
+)
 
 ui <- navbarPage(
   # Home page title
   "Home Page",
   overview_tab,
   viz_tab,
+  viz_tab2,
   conclusion_tab
 )
 
