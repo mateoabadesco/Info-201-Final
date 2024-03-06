@@ -20,40 +20,40 @@ merged_data <- merge(food_df, county_df, by = c("County", "State"))
 ## OVERVIEW TAB INFO
 
 overview_tab <- tabPanel("Introduction",
-   h1("Exploring Population and Housing Trends Across Economic Types"),
-   p("Welcome to our immersive journey into urban dynamics. This project offers 
+                         h1("Exploring Population and Housing Trends Across Economic Types"),
+                         p("Welcome to our immersive journey into urban dynamics. This project offers 
      an insightful exploration of the intricate interplay between population 
      and housing trends across diverse economic landscapes within urban areas.", 
-     style = "font-size: 18px;"),
-   
-   p("Our interactive tool provides a rich tapestry of analyses, unraveling the 
+                           style = "font-size: 18px;"),
+                         
+                         p("Our interactive tool provides a rich tapestry of analyses, unraveling the 
      complex patterns of population distribution, housing unit allocation, and 
      their profound relationship with various economic factors across 
      multifaceted geographic regions. Through dynamic visualizations and 
      data-driven insights, users are invited to embark on a voyage of discovery,
      uncovering the multifaceted layers of urban dynamics.", 
-     style = "font-size: 18px;"),
-   
-   p("Embark on your exploration by navigating through the tabs, 
+                           style = "font-size: 18px;"),
+                         
+                         p("Embark on your exploration by navigating through the tabs, 
      each offering a unique lens through which to view urban phenomena.", 
-     style = "font-size: 18px;"),
-   
-   p("In the 'Population & Housing Distribution' tab, delve into the 
+                           style = "font-size: 18px;"),
+                         
+                         p("In the 'Population & Housing Distribution' tab, delve into the 
      distribution patterns of population and housing units across different 
      economic types within urban areas. Explore interactive visualizations to 
      gain deeper insights into the spatial dynamics of urban populations and 
      housing.", style = "font-size: 18px;"),
-   
-   p("The 'Population vs. Housing' tab allows you to examine the relationship 
+                         
+                         p("The 'Population vs. Housing' tab allows you to examine the relationship 
      between population and housing units across various economic types. Through 
      scatter plots and trend analysis, uncover correlations and patterns that 
      shed light on the urban landscape.", style = "font-size: 18px;"),
-   
-   p("Finally, the 'Conclusion' tab offers a summary of key insights gleaned 
+                         
+                         p("Finally, the 'Conclusion' tab offers a summary of key insights gleaned 
      from the analysis. Reflect on the findings and implications for urban 
      planning, policy-making, and future research endeavors.", 
-     style = "font-size: 18px;")
-   
+                           style = "font-size: 18px;")
+                         
 )
 
 ## VIZ 1 TAB INFO
@@ -110,10 +110,10 @@ viz_2_main_panel <- mainPanel(
 )
 
 viz_2_tab <- tabPanel("Population & Housing by Economic Type",
-  sidebarLayout(
-    viz_2_sidebar,
-    viz_2_main_panel
-  )
+                      sidebarLayout(
+                        viz_2_sidebar,
+                        viz_2_main_panel
+                      )
 )
 
 ## VIZ 3 TAB INFO
@@ -142,22 +142,22 @@ viz_3_main_panel <- mainPanel(
 )
 
 viz_3_tab <- tabPanel("Population vs Housing Units by Economic Type",
-  sidebarLayout(
-    viz_3_sidebar,
-    viz_3_main_panel
-  )
+                      sidebarLayout(
+                        viz_3_sidebar,
+                        viz_3_main_panel
+                      )
 )
 
 
 ## CONCLUSIONS TAB INFO
 
 conclusion_tab <- tabPanel("Conclusion",
- h1("Conclusion"),
- p("In conclusion, this project offers valuable insights into the dynamics of urban 
+                           h1("Conclusion"),
+                           p("In conclusion, this project offers valuable insights into the dynamics of urban 
     populations and housing. By examining population and housing distributions across 
     different economic types, we gain a deeper understanding of the socioeconomic 
     landscape within urban areas.", style = "font-size: 18px;"),
- p("The interactive visualizations provided in this tool allow users to explore 
+                           p("The interactive visualizations provided in this tool allow users to explore 
     various aspects of the data and draw meaningful conclusions. From analyzing 
     population and housing trends to exploring their relationship with economic 
     types, this tool serves as a valuable resource for urban planners, policymakers, 
@@ -166,9 +166,10 @@ conclusion_tab <- tabPanel("Conclusion",
 
 
 ui <- navbarPage("Urban Dynamics: Exploring Population and Housing Trends",
-  overview_tab,
-  viz_1_tab,
-  viz_2_tab,
-  viz_3_tab,
-  conclusion_tab
+                 overview_tab,
+                 viz_1_tab,
+                 viz_2_tab,
+                 viz_3_tab,
+                 conclusion_tab
 )
+
