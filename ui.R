@@ -46,52 +46,59 @@ joined_df <- separate(joined_df, yearState, into = c("year", "state"), sep = " "
 overview_tab <- tabPanel("Introduction",
                          h1("Exploring Population and Housing Trends Across Economic Types"),
                          p("Welcome to our immersive journey into urban dynamics. This project offers 
-     an insightful exploration of the intricate interplay between population 
-     and housing trends across diverse economic landscapes within urban areas.", 
+     an insightful exploration of the intricate interplay between homelessne 
+     and housing trends over time.", 
                            style = "font-size: 18px;"),
-                         
-                         p("Our interactive tool provides a rich tapestry of analyses, unraveling the 
+                         overview_tab <- tabPanel("Introduction",
+                            h1("Exploring Population and Housing Trends Across Economic Types"),
+                                                  p("Welcome to our immersive journey into urban dynamics. This project offers 
+     an insightful exploration of the intricate interplay between homelessne 
+     and housing trends over time.", 
+                                                    style = "font-size: 18px;"),
+                                                  
+                                                  p("Our interactive tool provides a rich tapestry of analyses, unraveling the 
      complex patterns of population distribution, housing unit allocation, and 
      their profound relationship with various economic factors across 
      multifaceted geographic regions. Through dynamic visualizations and 
      data-driven insights, users are invited to embark on a voyage of discovery,
-     uncovering the multifaceted layers of urban dynamics.", 
-                           style = "font-size: 18px;"),
-                         
-                         p("Embark on your exploration by navigating through the tabs, 
+     uncovering the layers of urban dynamics.", 
+                                                    style = "font-size: 18px;"),
+                                                  
+                                                  p("Embark on your exploration by navigating through the tabs, 
      each offering a unique lens through which to view urban phenomena.", 
-                           style = "font-size: 18px;"),
-                         
-                         p("In the 'Population & Housing Distribution' tab, delve into the 
-     distribution patterns of population and housing units across different 
+                                                    style = "font-size: 18px;"),
+                                                  
+                                                  p("The first tab allows you to examine the relationship 
+     between population and housing units across various economic types. By being able to see the 
+     changes per year, we can uncover correlations and patterns that 
+     shed light on the urban landscape.", style = "font-size: 18px;"),
+                            p("The second tab covers how the corollation between the change in homelessness and cost index of the local area, year over any period of time. ", style = "font-size: 18px;"),
+                                                  
+                                                  p("In the 'Trends in Homelessness' tab, we are able to look at individual states and gain
+     insight into the areas of homelessness within these states of differing economic standings.", 
+                                                    style = "font-size: 18px;"),
+                                                  p("In the 'Property and Homelessness' tab, delve into the distribution patterns of population and housing units across different 
      economic types within urban areas. Explore interactive visualizations to 
      gain deeper insights into the spatial dynamics of urban populations and 
      housing.", style = "font-size: 18px;"),
-                         
-                         p("The 'Population vs. Housing' tab allows you to examine the relationship 
-     between population and housing units across various economic types. Through 
-     scatter plots and trend analysis, uncover correlations and patterns that 
-     shed light on the urban landscape.", style = "font-size: 18px;"),
-                         
-                         p("Finally, the 'Conclusion' tab offers a summary of key insights gleaned 
+                                                  
+                                                  p("Finally, the 'Conclusion' tab offers a summary of key insights gleaned 
      from the analysis. Reflect on the findings and implications for urban 
-     planning, policy-making, and future research endeavors.", 
-                           style = "font-size: 18px;")
+     planning, policy-making, and future research endeavors.",  style = "font-size: 18px;")))
+                                                  
                          
-)
-
-conclusion_tab <- tabPanel("Conclusion",
-                           h1("Conclusion"),
-                           p("In conclusion, this project offers valuable insights into the dynamics of urban 
-    populations and housing. By examining population and housing distributions across 
+                         conclusion_tab <- tabPanel("Conclusion",
+                                                    h1("Conclusion"),
+                                                    p("In conclusion, this project offers valuable insights into the dynamics of urban 
+    populations and housing. By examining homelessness, populations, and housing distributions across 
     different economic types, we gain a deeper understanding of the socioeconomic 
     landscape within urban areas.", style = "font-size: 18px;"),
-                           p("The interactive visualizations provided in this tool allow users to explore 
+                                                    p("The interactive visualizations provided in this tool allow users to explore 
     various aspects of the data and draw meaningful conclusions. From analyzing 
     population and housing trends to exploring their relationship with economic 
     types, this tool serves as a valuable resource for urban planners, policymakers, 
     and researchers alike.", style = "font-size: 18px;")
-)
+  )
 
 
 # We want our next tab to have a sidebar layout

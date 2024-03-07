@@ -92,15 +92,14 @@ server <- function(input, output) {
     state$costIndex <- state$costIndex - origin$costIndex
     
     state$deviation <- (state$PIT/state$costIndex)
-    state$standard_deviation <- (state$deviation - mean((state %>% group_by(region) %>% distinct(region, .keep_all = TRUE))$deviation, na.rm=TRUE))/ sd((state %>% group_by(region) %>% distinct(region, .keep_all = TRUE))$deviation, na.rm=TRUE)
     
-    state_plot <- ggplot(data=state, aes(x=long, y=lat, fill=standard_deviation, group=group)) + 
+    state_plot <- ggplot(data=state, aes(x=long, y=lat, fill=deviation, group=group)) + 
       geom_polygon(color = "white") + 
-      scale_fill_gradient(low = "lightblue", high = "darkblue") +
+      scale_fill_gradient(low = "darkred", high = "darkblue") +
       guides(fill=FALSE) + 
       theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank(),
             axis.title.y=element_blank(), axis.text.y=element_blank(), axis.ticks.y=element_blank()) + 
-      ggtitle('U.S. Map with States Homlessness to housing index') + 
+      ggtitle('change in PIT estimates/ change in cost index over given time period') + 
       coord_fixed(1.3)
     
     
