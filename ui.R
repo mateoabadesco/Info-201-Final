@@ -138,7 +138,7 @@ change_panel_plot <- mainPanel(
 
 # Data viz tab  — combine sidebar panel and main panel
 viz_tab <- tabPanel(
-  "Data Viz",
+  "Homelessness to Housing Index",
   sidebarLayout(
     sidebarPanel(
       select_widget),
@@ -147,7 +147,7 @@ viz_tab <- tabPanel(
 )
 
 viz_tab2 <- tabPanel(
-  "Data Viz2",
+  "PIT estimate v Change in cost index over time",
   sidebarLayout(
     sidebarPanel(
       slider_widget),
